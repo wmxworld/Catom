@@ -15,27 +15,25 @@ class Catom
         double       mass_;
         s_coordinate coordinate_;
         s_coordinate velocity_;
-        bool         has_coordinate_;
         bool         has_velocity_;
         bool         has_mass_;
 
     public:
-        atom();
-        atom(Catom another_atom);
-        atom(string name, s_coordinate coordinate);
-        atom(string name, double mass, s_coordinate coordinate, s_coordinate velocity);
-        atom(string name, double mass, s_coordiante coordinate);
-        ~atom();
+        // Catom(const Catom& another_atom);
+        Catom(std::string name, double coordinate_x, double coordinate_y, double coordinate_z);
+        Catom(std::string name, double mass, double coordinate_x, double coordinate_y, double coordinate_z, double velocity_x, double velocity_y, double velocity_z);
+        Catom(std::string name, double mass, double coordinate_x, double coordinate_y, double coordinate_z);
+        ~Catom();
 
         void clear();
-        void setName(string name);
-        void setCoordiante(double x, double y, double z);
+        void setName(std::string name);
+        void setCoordinate(double x, double y, double z);
         void setVelocity(double x, double y, double z);
         void setMass(double mass);
 
-        string       name();
+        std::string       name();
         s_coordinate coordinate();
-        s_coordiante velocity();
+        s_coordinate velocity();
         double       mass();
         bool         has_coordinate();
         bool         has_velocity();
@@ -45,5 +43,5 @@ class Catom
         void evolve(double ax, double ay, double az, double dt);
 
         double distance(Catom another_atom);
-}
+};
 

@@ -1,89 +1,171 @@
-#include "atom.hpp"
 #include <iostream>
 #include <string>
 #include <cmath>
+#include "atom.hpp"
 
 using namespace std;
 
-Catom::atom()
-{
-    has_coordinate_ = false;
-    has_velocity_   = false;
-    has_mass_       = false;
-}
 
-Catom::atom(Catom another_atom)
+/*Catom::Catom(const Catom& another_atom)
 {
-    // this.name_ = another_atom.name_; <- name_ field is private.
-    this.name_       = another_atom.name();
-    if(another_atom.has_coordinate())
-    {
-        this.coordinate_ = another_atom.coordinate();
-    }
+    // name_ = another_atom.name_; <- name_ field is private.
+    name_       = another_atom.name();
+    coordinate_ = another_atom.coordinate();
     if(another_atom.has_velocity())
     {
-        this.velocity    = another_atom.velocity();
+        velocity_    = another_atom.velocity();
+        has_velocity_   = true;
     }
     if(another_atom.has_mass())
     {
-        this.mass        = another_atom.mass();
+        mass_        = another_atom.mass();
+        has_mass_       = true;
     }
-}
+}*/
 
-Catom::atom(string name, s_coordinate coordinate)
+Catom::Catom(std::string name, double coordinate_x, double coordinate_y, \
+double coordinate_z)
 {
-    this.name_       = name;
-    this.coordinate_ = coordinate;
-    has_coordinate_ = true;
+    name_       = name;
+    coordinate_.x = coordinate_x;
+    coordinate_.y = coordinate_y;
+    coordinate_.z = coordinate_z;
     has_velocity_   = false;
     has_mass_       = false;
 }
 
-//////TODO: other constructers
-//
+Catom::Catom(std::string name, double mass, double coordinate_x, \
+double coordinate_y, double coordinate_z)
+{
+    name_       = name;
+    coordinate_.x = coordinate_x;
+    coordinate_.y = coordinate_y;
+    coordinate_.z = coordinate_z;
+    mass_       = mass;
+    has_velocity_   = false;
+    has_mass_       = true;
+}
 
-Catom::~atom()
+Catom::Catom(std::string name, double mass, double coordinate_x, \
+double coordinate_y, double coordinate_z, double velocity_x, double velocity_y, double velocity_z)
+{
+    name_       = name;
+    coordinate_.x = coordinate_x;
+    coordinate_.y = coordinate_y;
+    coordinate_.z = coordinate_z;
+    mass_       = mass;
+    velocity_.x   = velocity_x;
+    velocity_.y   = velocity_y;
+    velocity_.z   = velocity_z;
+    has_velocity_   = true;
+    has_mass_       = true;
+}
+
+Catom::~Catom()
 {
 }
 
 void Catom::clear()
 {
-    name = "";
-    has_coordinate_ = false;
+    name_ = "";
     has_velocity_   = false;
     has_mass_       = false;
 }
 
-void Catom::setName(string name)
+void Catom::setName(std::string name)
 {
-    this.name_ = name;
+    name_ = name;
 }
 
-// TODO: other 'set' functions
+void Catom::setCoordinate(double x, double y, double z)
+{
+    coordinate_.x = x;
+    coordinate_.y = y;
+    coordinate_.z = z;
+}
+
+void Catom::setVelocity(double x, double y, double z)
+{
+    velocity_.x = x;
+    velocity_.y = y;
+    velocity_.z = z;
+    has_velocity_ = true;
+}
+
+void Catom::setMass(double mass)
+{
+    mass_ = mass;
+    has_mass_ = true;
+}
+
+std::string Catom::name()
+{
+    return name_;
+}
+
+s_coordinate Catom::coordinate()
+{
+    return coordinate_;
+}
+
+s_coordinate Catom::velocity()
+{
+    if (!has_velocity())
+    {
+        cerr << "Error message : velocity not set yet" << endl;
+        exit(1);
+    }
+    return velocity_;
+}
+
+double Catom::mass()
+{
+    if(!has_mass())
+    {
+        cerr << "Error message : mass not set yet" << endl;
+        exit(1);
+    }
+    return mass_;
+}
+
+bool Catom::has_mass()
+{
+    return has_mass_;
+}
+
+bool Catom::has_velocity()
+{
+    return has_velocity_;
+}
 
 void Catom::move(double x, double y, double z)
 {
-    this.coordinate_.x += x; 
-    this.coordinate_.y += y; 
-    this.coordinate_.z += z; 
+    coordinate_.x += x; 
+    coordinate_.y += y; 
+    coordinate_.z += z; 
 }
 
-void Catom::evolve(double ax, double ay, double az,   double dt)
+void Catom::evolve(double ax, double ay, double az, double dt)
 {
-    this.coordinate_.x += this.velocity_.x * dt;
-    this.coordinate_.y += this.velocity_.y * dt;
-    this.coordinate_.z += this.velocity_.z * dt;
+    if(!has_velocity())
+    {
+        cerr << "Error message : velocity not set yet" << endl;
+        exit(1);
+    }
+    coordinate_.x += velocity_.x * dt;
+    coordinate_.y += velocity_.y * dt;
+    coordinate_.z += velocity_.z * dt;
 
-    this.velocity_x    += ax * dt;
-    this.velocity_y    += ay * dt;
-    this.velocity_z    += az * dt;
+    velocity_.x    += ax * dt;
+    velocity_.y    += ay * dt;
+    velocity_.z    += az * dt;
 }
 
-void Catom::distance(Catom another_atom)
+double Catom::distance(Catom another_atom)
 {
     s_coordinate coor_another = another_atom.coordinate();
-    return sqrt( pow( this.coordinate.x - coor_another.coordinate.x, 2  )\
-            +  pow( this.coordinate.y - coor_another.coordinate.y, 2  )\
-            +  pow( this.coordinate.z - coor_another.coordinate.z, 2  ));
+    return sqrt( pow( coordinate_.x - coor_another.x, 2  )\
+            +  pow( coordinate_.y - coor_another.y, 2  )\
+            +  pow( coordinate_.z - coor_another.z, 2  ));
 }
 
