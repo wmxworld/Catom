@@ -31,11 +31,11 @@ double coordinate_y, double coordinate_z)
 Catom::Catom(std::string name, double mass, double coordinate_x, \
 double coordinate_y, double coordinate_z, double velocity_x, double velocity_y, double velocity_z)
 {
-    name_       = name;
+    name_         = name;
     coordinate_.x = coordinate_x;
     coordinate_.y = coordinate_y;
     coordinate_.z = coordinate_z;
-    mass_       = mass;
+    mass_         = mass;
     velocity_.x   = velocity_x;
     velocity_.y   = velocity_y;
     velocity_.z   = velocity_z;
