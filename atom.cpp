@@ -5,7 +5,6 @@
 
 using namespace std;
 
-
 /*Catom::Catom(const Catom& another_atom)
 {
     // name_ = another_atom.name_; <- name_ field is private.
