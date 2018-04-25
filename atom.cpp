@@ -5,23 +5,6 @@
 
 using namespace std;
 
-/*Catom::Catom(const Catom& another_atom)
-{
-    // name_ = another_atom.name_; <- name_ field is private.
-    name_       = another_atom.name();
-    coordinate_ = another_atom.coordinate();
-    if(another_atom.has_velocity())
-    {
-        velocity_    = another_atom.velocity();
-        has_velocity_   = true;
-    }
-    if(another_atom.has_mass())
-    {
-        mass_        = another_atom.mass();
-        has_mass_       = true;
-    }
-}*/
-
 Catom::Catom(std::string name, double coordinate_x, double coordinate_y, \
 double coordinate_z)
 {
